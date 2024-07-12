@@ -1,5 +1,3 @@
 python-dotenv
 requests
-spotipy
-flask
 os
