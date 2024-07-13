@@ -66,7 +66,7 @@ def search_spotify_for_artist(token, artist_name):
 
     artist_id = result["artists"]["items"][0]["id"]
 
-    print(artist_id)
+    return artist_id
 
 
 
