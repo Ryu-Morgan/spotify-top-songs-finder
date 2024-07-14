@@ -47,7 +47,7 @@ def get_auth_header(token):
 
 
 # Function that searches for artist and returns the artist id
-def search_spotify_for_artist(token, artist_name):
+def search_spotify_for_artist_id(token, artist_name):
     # spotify search endpoint
     url_search = "https://api.spotify.com/v1/search"
     # get header 
@@ -68,15 +68,52 @@ def search_spotify_for_artist(token, artist_name):
 
     return artist_id
 
+# Function that gets the top tracks of an artist based on the artist id
+def get_top_tracks(token, artist_id):
+    # spotify top tracks endpoint
+    url_top_tracks = f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?market=US"
 
+    # get header
+    header = get_auth_header(token)
+
+    # get json data from endpoint
+    response = requests.get(url=url_top_tracks, headers=header)
+
+    result = response.json()
+
+    # get the top 3 songs of the artist
+    song_list = []
+    for i in range(3):
+        # get the name of the song
+        songs_name = result["tracks"][i]["name"]
+        # get song url
+        songs_url = result["tracks"][i]["external_urls"]["spotify"]
+        # append the song name and url to the song list
+        song_list.append((songs_name + ": " + songs_url))
+    # return the top 3 songs
+    return song_list
+
+
+# Function that formats the top tracks of an artist
+def format_top_tracks(top_tracks):
+    for i in range(3):
+        print(f"{i+1}. {top_tracks[i]}\n")
+
+
+# Main Function
+def main():
+    # get the token
+    token = get_token()
+    # get artist name from command line
+    artist_name = argv[1]
+    # # identify the artist id
+    artist_id = search_spotify_for_artist_id(token, artist_name)
+    # get the top tracks of the artist
+    songs = get_top_tracks(token, artist_id)
+    # format the top tracks
+    format_top_tracks(songs)
 
 # main
 if __name__ == "__main__":
+    main()
 
-    token = get_token()
-
-    artist_name = argv[1]
-
-    search_spotify_for_artist(token, artist_name)
-
-    
