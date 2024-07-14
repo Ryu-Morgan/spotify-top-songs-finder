@@ -100,18 +100,40 @@ def format_top_tracks(top_tracks):
         print(f"{i+1}. {top_tracks[i]}\n")
 
 
+# Function that get the artists name from the command line and returns the top 3 songs
+def get_artists_name_from_user():
+    # menu options
+    artists = []
+    loop = True
+    while loop:
+        # get the artist name from the command line
+        artist_name = input("Enter the name of the artist: ")
+        # append the artist name to the list
+        artists.append(artist_name)
+        # ask the user if they want to add another artist
+        another = input("Do you want to add another artist? (yes/no): ")
+        if another == "no":
+            loop = False
+    return artists
+
 # Main Function
 def main():
     # get the token
     token = get_token()
-    # get artist name from command line
-    artist_name = argv[1]
-    # # identify the artist id
-    artist_id = search_spotify_for_artist_id(token, artist_name)
-    # get the top tracks of the artist
-    songs = get_top_tracks(token, artist_id)
-    # format the top tracks
-    format_top_tracks(songs)
+
+    # get the artist name from the user
+    artist_name = get_artists_name_from_user()
+
+    # for each artist in the list
+    for artist in artist_name:
+        print(f"Top 3 songs of {artist}:")
+        # # identify the artist id
+        artist_id = search_spotify_for_artist_id(token, artist)
+        # get the top tracks of the artist
+        songs = get_top_tracks(token, artist_id)
+        # format the top tracks
+        format_top_tracks(songs)
+        print("\n")
 
 # main
 if __name__ == "__main__":
