@@ -33,4 +33,8 @@ Once inside the container add the missing .env file with the values:
 - CLIENT-SECRET=
 - ACCESS-TOKEN-URL=
 
-  
+
+After the .env file is added run the container using the command ->
+```
+python findTopSongs.py
+```
